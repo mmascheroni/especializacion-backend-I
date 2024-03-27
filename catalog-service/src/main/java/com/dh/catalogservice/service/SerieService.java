@@ -20,14 +20,14 @@ public class SerieService {
     @Autowired
     private ISerieClient iSerieClient;
 
-    @CircuitBreaker(name = "serie", fallbackMethod = "emptyListFallbackMethod")
+    @CircuitBreaker(name = "serie", fallbackMethod = "serieEmptyListFallbackMethod")
     @Retry(name = "serie")
     public List<Serie> getAll() {
         log.info("Calling serie service ...");
         return iSerieClient.getAll(false);
     }
 
-    @CircuitBreaker(name = "serie", fallbackMethod = "emptyListFallbackMethod")
+    @CircuitBreaker(name = "serie", fallbackMethod = "serieEmptyListFallbackMethod")
     @Retry(name = "serie")
     public List<Serie> getSeriesByGenre(String genre) {
         return iSerieClient.getSerieByGenre(genre);
@@ -37,7 +37,7 @@ public class SerieService {
         return iSerieClient.create(serie);
     }
 
-    private List<Serie> emptyListFallbackMethod(CallNotPermittedException e) {
+    private List<Serie> serieEmptyListFallbackMethod(CallNotPermittedException e) {
         return new ArrayList<>();
     }
 

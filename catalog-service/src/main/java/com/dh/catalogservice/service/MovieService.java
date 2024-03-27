@@ -2,7 +2,6 @@ package com.dh.catalogservice.service;
 
 import com.dh.catalogservice.feign.IMovieClient;
 import com.dh.catalogservice.model.Movie;
-import com.dh.catalogservice.model.Serie;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -21,9 +20,9 @@ public class MovieService {
     @Autowired
     private IMovieClient iMovieClient;
 
-    @CircuitBreaker(name = "movie", fallbackMethod = "emptyListFallbackMethod")
+    @CircuitBreaker(name = "movie", fallbackMethod = "movieEmptyListFallbackMethod")
     @Retry(name = "movie")
-    public ResponseEntity<List<Movie>> getCatalogByGenre(@PathVariable String genre) {
+    public List<Movie> getCatalogByGenre(@PathVariable String genre) {
         return iMovieClient.getMovieByGenre(genre);
     }
 
@@ -35,7 +34,7 @@ public class MovieService {
         return iMovieClient.getRandomId();
     }
 
-    private List<Serie> emptyListFallbackMethod(CallNotPermittedException e) {
+    private List<Movie> movieEmptyListFallbackMethod(CallNotPermittedException e) {
         return new ArrayList<>();
     }
 }

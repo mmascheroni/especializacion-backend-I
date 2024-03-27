@@ -28,7 +28,7 @@ public class CatalogController {
     private CatalogService catalogService;
 
     @GetMapping("/movies/{genre}")
-    public ResponseEntity<List<Movie>> getMoviesByGenre(@PathVariable String genre) {
+    public List<Movie> getMoviesByGenre(@PathVariable String genre) {
         return movieService.getCatalogByGenre(genre);
     }
 
