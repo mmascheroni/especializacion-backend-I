@@ -32,8 +32,9 @@ public class MovieController {
 
     @PostMapping("/save")
     ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-        movieSender.sendMovie(movie);
-        return ResponseEntity.ok().body(movieService.save(movie));
+        Movie movieSaved = movieService.save(movie);
+        movieSender.sendMovie(movieSaved);
+        return ResponseEntity.ok().body(movieSaved);
     }
 
     @GetMapping()
